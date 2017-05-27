@@ -1,0 +1,11 @@
+
+<template name="flight">
+  <li>
+    <button class="delete">&times;</button>
+    {{#if beforeNow estimatedArrival }}
+      <span class="text">{{airlineName}} Flight {{flightNumber}} is scheduled to arrive at {{parseDate estimatedArrival}}</span>
+    {{else}}
+      <span class="text">{{airlineName}} Flight {{flightNumber}} arrived at {{parseDate actualGateArrival}} at {{destination}}</span>
+    {{/if}}
+  </li>
+</template>

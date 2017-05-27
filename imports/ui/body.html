@@ -1,0 +1,45 @@
+<body>
+  <div class="container">
+    {{#if currentUser}}
+    <header>
+      {{> loginButtons}}
+      <h1>Flight Tracker</h1>
+      <form class="new-flight">
+        <select name="airlineCode">
+          <option value="AA">American Airlines</option>
+          <option value="WN">Southwest</option>
+          <option value="DL">Delta</option>
+          <option value="EK">Emirates</option>
+          <option value="KE">Korean</option>
+          <option value="US">US Airways</option>
+          <option value="UA">United</option>
+          <option value="AC">Air Canada</option>
+          <option value="AM">Aeromexico</option>
+          <option value="AF">Air France</option>
+          <option value="NH">ANA</option>
+          <option value="OZ">Asiana</option>
+          <option value="CX">Cathay Pacific</option>
+          <option value="CI">China Eastern Airlines</option>
+          <option value="JL">Japan Airlines</option>
+          <option value="QF">Qantas</option>
+          <option value="SQ">Singapore Airlines</option>
+          <option value="VS">Virgin Atlantic</option>
+        </select>
+        <br>
+        <br>
+        <input type="text" name="flightNumber" placeholder="Flight Number" />
+        <br>
+        <br>
+        <button type="submit">Submit</button>
+      </form>
+    </header>
+    {{else}}
+      {{> loginButtons}}
+    {{/if}}
+    <ul>
+      {{#each flights}}
+        {{> flight}}
+      {{/each}}
+    </ul>
+  </div>
+</body>
