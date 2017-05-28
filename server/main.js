@@ -2,7 +2,7 @@ import '../imports/api/flights.js';
 import '../settings.json'
 
 import { Flights } from '../imports/api/flights.js';
-
+import { Profiles } from '../imports/api/profiles.js';
 
 ServiceConfiguration.configurations.remove({
     service: "facebook"
@@ -15,43 +15,58 @@ ServiceConfiguration.configurations.insert({
 });
 
 Meteor.methods({
-  getFlightData(airline, flightNum) {
+  getFlightData(airline, flightNum, destinationCode) {
     HTTP.get(queryString(airline, flightNum), (error, response) => {
       parsedResponse = JSON.parse(response.content)
         if(response.statusCode == 200 && parsedResponse.flightStatuses != null) {
-          makeFlightRecord(parsedResponse)
+          makeFlightRecord(parsedResponse, destinationCode)
         }
     })
   }
 })
 
-const makeFlightRecord = flightObject => {
+const makeFlightRecord = (flightObject, destinationCode) => {
 
   const airlineName = flightObject.appendix.airlines[0].name
   const airlineCode = flightObject.appendix.airlines[0].fs
 
-  const flightStatus = flightObject.flightStatuses[0]
-  const flightNumber = flightStatus.flightNumber
+  const flightStatuses = flightObject.flightStatuses
 
-  const destination = flightStatus.arrivalAirportFsCode
-  const departure = flightStatus.departureAirportFsCode
+  flightStatuses.forEach((flightStatus) => {
+    const destination = flightStatus.arrivalAirportFsCode
+    console.log(flightStatus)
+    if (destination === destinationCode) {
+      const flightNumber = flightStatus.flightNumber
+      const departure = flightStatus.departureAirportFsCode
+      let actualGateArrival = null;
+      let estimatedArrival = null;  
 
-  const estimatedArrival = flightStatus.operationalTimes.estimatedGateArrival.dateUtc
-  const scheduledArrival = flightStatus.operationalTimes.publishedArrival.dateUtc
-  const actualGateArrival = flightStatus.operationalTimes.actualGateArrival.dateUtc
+      if (flightStatus.operationalTimes.estimatedGateArrival != null) {
+        estimatedArrival = flightStatus.operationalTimes.estimatedGateArrival.dateUtc
+      } else {
+        estimatedArrival = flightStatus.operationalTimes.estimatedRunwayArrival.dateUtc
+      }
 
-  Flights.insert({
-    belongsTo: Meteor.userId(),
-    airlineName: airlineName,
-    airlineCode: airlineCode,
-    flightNumber: flightNumber,
-    destination: destination,
-    departure: departure,
+      const scheduledArrival = flightStatus.operationalTimes.publishedArrival.dateUtc
 
-    estimatedArrival: estimatedArrival,
-    scheduledArrival: scheduledArrival,
-    actualGateArrival: actualGateArrival,
-    createdAt: new Date()
+      if (flightStatus.operationalTimes.actualGateArrival != null) {
+        actualGateArrival = flightStatus.operationalTimes.actualGateArrival.dateUtc
+      }
+
+      Flights.insert({
+        belongsTo: Meteor.userId(),
+        airlineName: airlineName,
+        airlineCode: airlineCode,
+        flightNumber: flightNumber,
+        destination: destination,
+        departure: departure,
+
+        estimatedArrival: estimatedArrival,
+        scheduledArrival: scheduledArrival,
+        actualGateArrival: actualGateArrival,
+        createdAt: new Date()
+      })
+    }
   })
 }
 
@@ -67,3 +82,8 @@ const queryString = (airline, flightNum) => {
   return `https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/status/${airline}/${flightNum}/arr/${year}/${month}/${day}?appId=${appid}&appKey=${apikey}&utc=false`
 }
 
+Meteor.methods({
+  createProfile(obj) {
+    Profiles.insert(obj)
+  }
+})

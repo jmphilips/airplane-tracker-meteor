@@ -15,10 +15,9 @@ Template.flight.events({
   }
 })
 
-
 Template.flight.helpers({
-  beforeNow: function(estArrival) {
-    return estArrival > new Date()
+  beforeNow: function(estArrival, actualGateArrival) {
+    return (estArrival < new Date() || actualGateArrival === null)
   }
 })
 

@@ -125,5 +125,8 @@ header .hide-completed {
 }
 
 #centered {
-  margin: auto;
+  position: fixed;
+  left: 43%;
+  right: 43%;
+  top: 30%;
 }

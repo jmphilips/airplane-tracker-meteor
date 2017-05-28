@@ -1,0 +1,36 @@
+<template name="signup">
+  <h2>Welcome to Flight Tracker</h2>
+  <form id="new-user">
+    <label>How often do you fly?</label>
+    <select name="flightFrequency">
+      <option></option>
+      <option value="1">Never</option>
+      <option value="2">Once or twice a year</option>
+      <option value="3">Once every other month</option>
+      <option value="4">Once or twice a month</option>
+      <option value="5">Yeah...I might be a pilot</option>
+    </select>
+    <br>
+    <br>
+    <label>Who is your preferred carrier?</label>
+    <select name="carrierPref">
+      <option></option>
+      <option value="american">American</option>
+      <option value="southwest">Southwest</option>
+      <option value="united">United</option>
+      <option value="cheap">Whatever is cheapest</option>
+      <option value="vip">Wherever I am cashing in my miles this week.</option>
+    </select>
+    <br>
+    <br>
+    <label>What is your home three letter aiport code?</label>
+    <input type="text" name="airportCode" placeholder="BNA..." />
+    <br>
+    <br>
+    <label>Email address we can send you sweet promotions at.</label>
+    <input type="email" name="useremail" />
+    <br>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+</template>

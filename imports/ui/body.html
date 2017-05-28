@@ -1,6 +1,7 @@
 <body>
+  {{#if currentUser}}
   <div class="container">
-    {{#if currentUser}}
+    {{#if hasProfile}}
     <header>
       {{> loginButtons}}
       <h1>Flight Tracker</h1>
@@ -30,16 +31,27 @@
         <input type="text" name="flightNumber" placeholder="Flight Number" />
         <br>
         <br>
+        <input type="text" name="airportCode" placeholder="Three letter Airport like 'BNA'..." />
+        <br>
+        <br>
         <button type="submit">Submit</button>
       </form>
     </header>
-    {{else}}
-      {{> loginButtons}}
-    {{/if}}
+
     <ul>
       {{#each flights}}
         {{> flight}}
       {{/each}}
     </ul>
+    {{else}}
+      <header>
+        {{> signup}}
+      </header>
+    {{/if}}
   </div>
+  {{else}}
+    <div id="centered">
+    {{> loginButtons}}
+    </div>
+  {{/if}}
 </body>
