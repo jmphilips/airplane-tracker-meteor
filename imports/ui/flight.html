@@ -2,10 +2,6 @@
 <template name="flight">
   <li>
     <button class="delete">&times;</button>
-    {{#if beforeNow estimatedArrival actualGateArrival }}
-      <span class="text">{{airlineName}} Flight {{flightNumber}} is scheduled to arrive at {{parseDate estimatedArrival}} at {{destination}}</span>
-    {{else}}
-      <span class="text">{{airlineName}} Flight {{flightNumber}} arrived at {{parseDate actualGateArrival}} at {{destination}}</span>
-    {{/if}}
+    <span class="text">{{airlineName}} Flight {{flightNumber}} is scheduled to arrive at {{parseDate scheduledArrival}} at {{destination}}</span>
   </li>
 </template>

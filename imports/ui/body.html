@@ -4,11 +4,14 @@
     {{#if hasProfile}}
     <header>
       {{> loginButtons}}
+      <br>
+      <br>
       <h1>Flight Tracker</h1>
+      <p>Find up to date flight information:</p>
       <form class="new-flight">
-        <select name="airlineCode">
+        <select name="airlineCode" required>
+          <option>Choose an Airline</option>
           <option value="AA">American Airlines</option>
-          <option value="WN">Southwest</option>
           <option value="DL">Delta</option>
           <option value="EK">Emirates</option>
           <option value="KE">Korean</option>
@@ -28,10 +31,10 @@
         </select>
         <br>
         <br>
-        <input type="text" name="flightNumber" placeholder="Flight Number" />
+        <input type="text" name="flightNumber" placeholder="Flight Number" required />
         <br>
         <br>
-        <input type="text" name="airportCode" placeholder="Three letter Airport like 'BNA'..." />
+        <input type="text" name="airportCode" placeholder="Destination Airport like 'BNA'..." required/>
         <br>
         <br>
         <button type="submit">Submit</button>

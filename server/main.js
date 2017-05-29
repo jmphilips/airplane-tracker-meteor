@@ -38,20 +38,21 @@ const makeFlightRecord = (flightObject, destinationCode) => {
     if (destination === destinationCode) {
       const flightNumber = flightStatus.flightNumber
       const departure = flightStatus.departureAirportFsCode
-      let actualGateArrival = null;
-      let estimatedArrival = null;  
-
-      if (flightStatus.operationalTimes.estimatedGateArrival != null) {
-        estimatedArrival = flightStatus.operationalTimes.estimatedGateArrival.dateUtc
-      } else {
-        estimatedArrival = flightStatus.operationalTimes.estimatedRunwayArrival.dateUtc
-      }
 
       const scheduledArrival = flightStatus.operationalTimes.publishedArrival.dateUtc
+      let actualGateArrival = scheduledArrival
+      let estimatedArrival = scheduledArrival
 
-      if (flightStatus.operationalTimes.actualGateArrival != null) {
-        actualGateArrival = flightStatus.operationalTimes.actualGateArrival.dateUtc
-      }
+      // if (flightStatus.operationalTimes.estimatedGateArrival !== null) {
+      //   estimatedArrival = flightStatus.operationalTimes.estimatedGateArrival.dateUtc
+      // } else {
+      //   estimatedArrival = scheduledArrival;
+      // }
+
+
+      // if (flightStatus.operationalTimes.actualGateArrival !== null) {
+      //   actualGateArrival = flightStatus.operationalTimes.actualGateArrival.dateUtc
+      // }
 
       Flights.insert({
         belongsTo: Meteor.userId(),
@@ -66,6 +67,7 @@ const makeFlightRecord = (flightObject, destinationCode) => {
         actualGateArrival: actualGateArrival,
         createdAt: new Date()
       })
+      console.log("inserted: ", flightNumber)
     }
   })
 }

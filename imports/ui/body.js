@@ -38,11 +38,14 @@ Template.body.events({
       const target = event.target;
       const airlineCode = target.airlineCode.value;
       const flightNumber = target.flightNumber.value;
-      const airportCode = target.airportCode.value;
+      const airportCode = target.airportCode.value.toUpperCase();
 
-      Meteor.call('getFlightData', airlineCode, flightNumber, airportCode )
-
-      target.flightNumber.value = '';
-      target.airportCode.value = '';
+      if (airportCode.length !== 3) {
+        alert("Please check your Airport Code")
+      } else {
+        Meteor.call('getFlightData', airlineCode, flightNumber, airportCode )
+        target.flightNumber.value = '';
+        target.airportCode.value = '';
+      }
   }
 })
